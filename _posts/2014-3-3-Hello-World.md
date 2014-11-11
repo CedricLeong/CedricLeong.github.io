@@ -24,6 +24,35 @@ public interface election  extends Remote{
 }
 {% endhighlight %}
 
+{% highlight java %}
+public class electionImplementation extends UnicastRemoteObject implements election{
+
+	String[] candidates = {"bob","jake"};
+	int[] votes = new int[candidates.length];
+	private static final long serialVersionUID = 1L;
+	protected electionImplementation() throws RemoteException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public void vote (String candidate, int voteNum)
+	{
+		for (int i = 0; i < candidates.length; i++)
+		{
+			if (candidate.equals(candidates[i]))
+			{
+				votes[i]++;
+			}
+		}
+		
+	}
+	public String result () throws RemoteException
+	{
+		return candidates + votes.toString();
+	}
+	
+}
+{% endhighlight %}
 
 
 
