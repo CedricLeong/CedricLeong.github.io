@@ -54,5 +54,27 @@ public class electionImplementation extends UnicastRemoteObject implements elect
 }
 {% endhighlight %}
 
+{% highlight java %}
+public class electionServer {
 
+	public static void main(String[] args) throws RemoteException {
+		// TODO Auto-generated method stub
+	    if (System.getSecurityManager() == null) { 
+	 	   System.setSecurityManager(new RMISecurityManager()); 
+	     }
+		try{
+			electionImplementation lol = new electionImplementation();
+		Naming.rebind("rmi://localhost/election", lol);
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception "+ e.getMessage());
+		    e.printStackTrace(); 
+
+		}
+		
+	}
+
+}
+{% endhighlight %}
 
