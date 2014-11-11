@@ -16,11 +16,14 @@ the name of a candidate and the number of votes for that candidate.
 
 The Election service must record a vote whenever a user thinks they have cast a vote. The
 records should remain consistent when it is accessed concurrently by multiple clients.
-```java
+
+```
 public interface election  extends Remote{
 	public void vote (String candidate, int voteNum) throws RemoteException;
 	public String result() throws RemoteException;
 }
 ```
+
+
 
 
