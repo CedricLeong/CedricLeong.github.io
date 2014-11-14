@@ -46,37 +46,34 @@ public class electionImplementation extends UnicastRemoteObject implements elect
 	public void vote (String candidate, int voteNum)
 	{
 		
-			if (!voters.contains(voteNum))
+		if (!voters.contains(voteNum))
+		{
+			for (int i = 0; i < candidates.length; i++)
 			{
-				for (int i = 0; i < candidates.length; i++)
+				if (candidate.equals(candidates[i]))
 				{
-					if (candidate.equals(candidates[i]))
-					{
-						votes[i]++;
-					}
+					votes[i]++;
 				}
-				try
-				{
-			        File file = new File("backup.txt");
-			        file.createNewFile();
-			        PrintWriter output = new PrintWriter(new FileWriter(file));
-				    for (int i: votes)
-				    {
-				        output.println(i);
-				    }
-				    output.close();
-				}
-				catch (Exception e)
-				{
-				    e.printStackTrace();
-				    System.out.println("No such file exists.");
-				}
-				voters.add(voteNum);
 			}
-		
-	
+			try
+			{
+				File file = new File("backup.txt");
+				file.createNewFile();
+				PrintWriter output = new PrintWriter(new FileWriter(file));
+				for (int i: votes)
+				{
+					output.println(i);
+				}
+				output.close();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				System.out.println("No such file exists.");
+			}
+			voters.add(voteNum);
+		}
 	}
-
 
 	public Result result() throws RemoteException {
 		// TODO Auto-generated method stub
@@ -105,7 +102,6 @@ public class electionServer {
 		{
 			System.out.println("Exception "+ e.getMessage());
 		    e.printStackTrace(); 
-
 		}
 	}
 }
