@@ -21,9 +21,14 @@ public interface election  extends Remote{
 {% endhighlight %}
 
 
-The Election service must record a vote whenever a user thinks they have cast a vote. The
-records should remain consistent when it is accessed concurrently by multiple clients.
+The Election service must record a vote whenever a user thinks they have cast a vote. Also, The records should remain consistent when it is accessed concurrently by multiple clients.
 
+
+When the client calls the vote method, it has to provide a voter number in the parameter. When the voter number is received by the server, it will check the voter number with an array list of voter numbers. Therefore the server ensures the user only votes once. Java RMI provides call semantics that also helps makes sure a vote is recorded whenever a client sends a call.
+
+Whenever a client casts a vote. The server will save the array of votes into a file. The recovery of the votes after a crash is the server reading from the file. 
+
+At first there was an attempt to code in a mutex system. This mutex system would act as a method of synchronization similar to how process synchronization is handled in operating systems. But, after testing it was seen that mutex isn’t necessary in this program. In the program, a client’s vote is essentially added to a data structure such as an array I have in my code. When I ensured a voter has a recorded vote, it checks with the server to see if the voter number has already been casted. In this, it acts as a synchronization for the server since each client will be checked and the access of array is synchronized already by Java and the OS. 
 
 
 {% highlight java %}
