@@ -45,7 +45,6 @@ public class electionImplementation extends UnicastRemoteObject implements elect
 	
 	public void vote (String candidate, int voteNum)
 	{
-		
 		if (!voters.contains(voteNum))
 		{
 			for (int i = 0; i < candidates.length; i++)
