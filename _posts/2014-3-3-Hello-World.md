@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Election Service with Java RMI
+title: "Election Service as a Distributed System "
 published: true
 ---
 
@@ -27,10 +27,11 @@ records should remain consistent when it is accessed concurrently by multiple cl
 
 
 {% highlight java %}
-public class electionImplementation extends UnicastRemoteObject implements election{
+public class electionImplementation extends UnicastRemoteObject implements election {
 
 	String[] candidates = {"bob","jake"};
 	int[] votes = new int[candidates.length];
+	ArrayList<Integer> voters = new ArrayList<Integer>();
 	private static final long serialVersionUID = 1L;
 	protected electionImplementation() throws RemoteException {
 		super();
@@ -39,19 +40,48 @@ public class electionImplementation extends UnicastRemoteObject implements elect
 	
 	public void vote (String candidate, int voteNum)
 	{
-		for (int i = 0; i < candidates.length; i++)
-		{
-			if (candidate.equals(candidates[i]))
+		
+			if (!voters.contains(voteNum))
 			{
-				votes[i]++;
+				for (int i = 0; i < candidates.length; i++)
+				{
+					if (candidate.equals(candidates[i]))
+					{
+						votes[i]++;
+					}
+				}
+				try
+				{
+			        File file = new File("backup.txt");
+			        file.createNewFile();
+			        PrintWriter output = new PrintWriter(new FileWriter(file));
+				    for (int i: votes)
+				    {
+				        output.println(i);
+				    }
+				    output.close();
+				}
+				catch (Exception e)
+				{
+				    e.printStackTrace();
+				    System.out.println("No such file exists.");
+				}
+				voters.add(voteNum);
 			}
-		}
+		
+	
 	}
-	public String result () throws RemoteException
-	{
-		return candidates + votes.toString();
+
+
+	public Result result() throws RemoteException {
+		// TODO Auto-generated method stub
+		Result re = new Result();
+		re.setName(candidates);
+		re.setVotes(votes);
+		return re;
 	}
 }
+
 {% endhighlight %}
 
 {% highlight java %}
@@ -63,8 +93,8 @@ public class electionServer {
 	 	   System.setSecurityManager(new RMISecurityManager()); 
 	     }
 		try{
-			electionImplementation lol = new electionImplementation();
-		Naming.rebind("rmi://localhost/election", lol);
+			electionImplementation elec = new electionImplementation();
+		Naming.rebind("rmi://localhost/election", elec);
 		}
 		catch(Exception e)
 		{
