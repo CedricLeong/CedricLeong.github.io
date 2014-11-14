@@ -34,53 +34,57 @@ At first there was an attempt to code in a mutex system. This mutex system would
 {% highlight java %}
 public class electionImplementation extends UnicastRemoteObject implements election {
 
-	String[] candidates = {"bob","jake"};
-	int[] votes = new int[candidates.length];
-	ArrayList<Integer> voters = new ArrayList<Integer>();
-	private static final long serialVersionUID = 1L;
-	protected electionImplementation() throws RemoteException {
-		super();
-		// TODO Auto-generated constructor stub
+String[] candidates = {"bob","jake"};
+int[] votes = new int[candidates.length];
+ArrayList<Integer> voters = new ArrayList<Integer>();
+private static final long serialVersionUID = 1L;
+protected electionImplementation() throws RemoteException {
+	super();
+	// TODO Auto-generated constructor stub
+}
+
+public void vote (String candidate, int voteNum)
+{
+	
+	if (!voters.contains(voteNum))
+	{
+		for (int i = 0; i < candidates.length; i++)
+		{
+			if (candidate.equals(candidates[i]))
+			{
+				votes[i]++;
+			}
+		}
+		try
+		{
+			File file = new File("backup.txt");
+			file.createNewFile();
+			PrintWriter output = new PrintWriter(new FileWriter(file));
+			for (int i: votes)
+			{
+				output.println(i);
+			}
+			output.close();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("No such file exists.");
+		}
+		voters.add(voteNum);
 	}
 	
-	public void vote (String candidate, int voteNum)
-	{
-		if (!voters.contains(voteNum))
-		{
-			for (int i = 0; i < candidates.length; i++)
-			{
-				if (candidate.equals(candidates[i]))
-				{
-					votes[i]++;
-				}
-			}
-			try
-			{
-				File file = new File("backup.txt");
-				file.createNewFile();
-				PrintWriter output = new PrintWriter(new FileWriter(file));
-				for (int i: votes)
-				{
-					output.println(i);
-				}
-				output.close();
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-				System.out.println("No such file exists.");
-			}
-			voters.add(voteNum);
-		}
-	}
+	
+}
 
-	public Result result() throws RemoteException {
-		// TODO Auto-generated method stub
-		Result re = new Result();
-		re.setName(candidates);
-		re.setVotes(votes);
-		return re;
-	}
+
+public Result result() throws RemoteException {
+	// TODO Auto-generated method stub
+	Result re = new Result();
+	re.setName(candidates);
+	re.setVotes(votes);
+	return re;
+}
 }
 
 {% endhighlight %}
