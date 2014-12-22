@@ -2,14 +2,14 @@
 layout: page
 title: About
 permalink: /about/
+published: true
 ---
 
-Some information about you!
+My name is Cedric Leong. I live in Toronto, Canada and currently studying in my last year for Software Engineering.
 
-### More Information
+I make websites, and occasionally software for start-ups. 
 
-A place to include any other types of information that you'd like to include about yourself. 
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[cedricleong@gmail.com](mailto:cedricleong@gmail.com.com)
