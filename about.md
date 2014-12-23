@@ -5,7 +5,7 @@ permalink: /about/
 published: true
 ---
 
-My name is Cedric Leong. I live in Toronto, Canada and currently studying in my last year for Software Engineering.
+My name is Cedric Leong. I live in Toronto, Canada and currently studying in my last year for Software Engineering. sdadsadasdasdsaads
 
 I make websites, and occasionally software for start-ups. 
 
