@@ -12,7 +12,7 @@ The interface of the Election service provides two remote methods:
 - vote: This method has two parameters through which the client supplies the name of a candidate (a string) and the “voter's number” (an integer used to ensure each user votes once only). The voter's numbers are allocated sparsely from the range of integers to make them hard to guess.
 - result: This method has two parameters through which the server supplies the client with the name of a candidate and the number of votes for that candidate.
 
-
+{% gist e0b3a03e49e6ca8e3d5b %}
 {% highlight java %}
 public interface election  extends Remote{
 	public void vote (String candidate, int voteNum) throws RemoteException;
